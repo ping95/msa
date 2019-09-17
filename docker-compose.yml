@@ -4,7 +4,7 @@ services:
     container_name: wsgi
     image: nginx:latest
     ports:
-      - "80:801"
+      - "80:80"
       - "443:443"
     volumes:
       - ./nginx/html:/usr/share/nginx/html
