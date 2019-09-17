@@ -1,0 +1,29 @@
+version: "3"
+services:
+  nginx:
+    container_name: wsgi
+    image: nginx:latest
+    ports:
+      - "80:801"
+      - "443:443"
+    volumes:
+      - ./nginx/html:/usr/share/nginx/html
+      - ./log/nginx:/var/log/nginx
+      - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/cert:/etc/pki/nginx
+    networks:
+      - backend
+  mynode:
+    container_name: mynode
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    ports:
+     - "8080:8080"
+    volumes:
+     - ./node/src:/usr/src/app/src 
+    networks:
+     - backend
+networks:
+  backend:
+    driver: bridge
