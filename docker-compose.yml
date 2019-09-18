@@ -13,6 +13,7 @@ services:
       - ./nginx/cert:/etc/pki/nginx
     networks:
       - backend
+    privileged: true
   mynode:
     container_name: mynode
     build:
@@ -24,6 +25,7 @@ services:
      - ./node/src:/usr/src/app/src 
     networks:
      - backend
+    privileged: true
 networks:
   backend:
     driver: bridge
