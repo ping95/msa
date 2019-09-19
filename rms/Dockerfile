@@ -27,4 +27,6 @@ ENV TERM xterm
 RUN ./install.sh 8500
 
 EXPOSE 8500
-CMD [ "service", "httpd", "restart" ]
+
+#WORKDIR /home1/apache/bin/
+#CMD [ "./httpd", "-k", "start" ]
