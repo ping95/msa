@@ -26,6 +26,16 @@ services:
     networks:
      - backend
     privileged: true
+  rms:
+    container_name: myrms
+    build:
+      context: ./rms
+      dockerfile: Dockerfile
+    ports:
+     - "8500:8500"
+    networks:
+     - backend
+    command: ["/home1/apache/bin/httpd", "-k", "start"]
 networks:
   backend:
     driver: bridge
