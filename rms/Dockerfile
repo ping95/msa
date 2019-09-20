@@ -15,18 +15,16 @@ RUN yum install initscripts -y
 
 WORKDIR /var/spool/cron
 
-ADD ./SniperWebServer_v2.0.1-2-gdeb59a5.tar.gz /package
+ADD ./SniperWebServer_v2.0.1-16-g432b58e.tar.gz /package
 ADD ./2.0.7-11-g9326005.tar.gz /package
 
-WORKDIR /package/SniperWebServer_v2.0.1-2-gdeb59a5
+WORKDIR /package/SniperWebServer_v2.0.1-16-g432b58e
 RUN ./install.sh
 WORKDIR /package/2.0.7-11-g9326005
 ENV TZ Asia/Seoul
 ENV TERM xterm
+RUN ./install.sh
 
-RUN ./install.sh 8500
+EXPOSE 443
 
-EXPOSE 8500
-
-#WORKDIR /home1/apache/bin/
-#CMD [ "./httpd", "-k", "start" ]
+CMD ["/home1/apache/bin/httpd", "-D", "FOREGROUND"]

@@ -20,7 +20,7 @@ services:
       context: ./node
       dockerfile: Dockerfile
     ports:
-     - "8080:8080"
+     - "8001:8080"
     volumes:
      - ./node/src:/usr/src/app/src 
     networks:
@@ -32,10 +32,10 @@ services:
       context: ./rms
       dockerfile: Dockerfile
     ports:
-     - "8500:8500"
+     - "8002:443"
     networks:
      - backend
-    command: ["/home1/apache/bin/httpd", "-k", "start"]
+    command: ["/home1/apache/bin/httpd", "-D", "FOREGROUND"]
 networks:
   backend:
     driver: bridge
