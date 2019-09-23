@@ -5,7 +5,7 @@ services:
     image: nginx:latest
     ports:
       - "80:80"
-      - "443:443"
+      - "8443:8443"
     volumes:
       - ./nginx/html:/usr/share/nginx/html
       - ./log/nginx:/var/log/nginx
@@ -20,22 +20,55 @@ services:
       context: ./node
       dockerfile: Dockerfile
     ports:
-     - "8001:8080"
+     - "8080:8080"
     volumes:
      - ./node/src:/usr/src/app/src 
     networks:
      - backend
     privileged: true
+
   rms:
     container_name: myrms
+    mac_address: 00:0c:29:93:ae:73     
+    # SKRLECWIT221940
+    # b77de298324755c3
     build:
       context: ./rms
       dockerfile: Dockerfile
     ports:
-     - "8002:443"
+     - "443:443"
     networks:
      - backend
     command: ["/home1/apache/bin/httpd", "-D", "FOREGROUND"]
+
+  medallion:
+    container_name: mytaxii
+    build:
+      context: ./taxii
+      dockerfile: ./docker_utils/Dockerfile
+    ports:
+      - 5000:5000
+    volumes:
+      - '/home1/hyjung/msa/taxii/config:/config'
+    privileged: true
+    networks:
+     - backend    
+    command: [sh, -c, "medallion --host 0.0.0.0 /config/docker_config.json"]
+
+  mongo:
+    container_name: mymonogo
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - './mongodb/data:/data/db'
+    privileged: true
+    networks:
+     - backend
 networks:
   backend:
     driver: bridge
