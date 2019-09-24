@@ -1,0 +1,13 @@
+{
+  "backend": {
+    "module": "medallion.backends.mongodb_backend",
+    "module_class": "MongoBackend",
+    "uri": "mongodb://root:example@localhost:27017/" 
+  },
+  "users": {
+    "root001": "sniper_01" 
+  },
+  "taxii": {
+    "max_page_size": 100
+  }
+}
