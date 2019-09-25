@@ -1,4 +1,50 @@
-<H1>Hi! I'm Nginx Html!!!!</H1><br>
-<a href=/node>Node express (localhost:8080)</a><br>
-<a href=/rms>Sniper RMS (localhost:443)</a><br>
-<a href=/taxii>TAXII v2.0</a><br>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page Title</title>
+    <style>
+    	#menu {
+        	margin-bottom: 20px;
+        }
+        
+    	.tab.menu {
+        	padding: 14px 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        
+        #content {
+        	width: 100%;
+            min-height: 730px;
+            border: 1px solid gray;
+        }
+        
+        iframe {
+        	width: 100%;
+            min-height: 730px;
+        }
+    </style>
+</head>
+
+<body>
+	<div id="title" class="tab menu node">
+		<center>I'm Nginx (WSGI)</center>
+	</div>
+    <div id="menu" align="center">
+    	<font color=blue>/node </font><button class="tab menu node" onclick="openServer('/node')" title='/node'>Node/Express(localhost:8080)</button>
+		<font color=blue>/rms <button class="tab menu rms" onclick="openServer('/rms')" title='/rms'>RMS/PHP(localhost:8081)</button>
+        <font color=blue>/one <button class="tab menu one" onclick="openServer('/one')" title='/one'>ONE/CGI(10.0.16.162:4000)</button>
+        <font color=blue>/taxii <button class="tab menu taxii" onclick="openServer('/taxii')" title='/taxii'>TAXII/Python/Flask(localhost:5000)</button>
+    </div>
+    
+    <div id="content">
+    </div>
+
+	<script>
+    	function openServer(addr) {
+        	document.getElementById("content").innerHTML = "<iframe src=\"" + addr + "\"></iframe>";
+        }
+    </script>
+</body>
+</html>

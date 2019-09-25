@@ -1,11 +1,11 @@
 version: "3"
 services:
-  nginx:
-    container_name: wsgi
+  mynginx:
+    container_name: mynginx
     image: nginx:latest
     ports:
-      - "80:80"
-      - "8443:8443"
+      #- "80:80"
+      - "443:443"
     volumes:
       - ./nginx/html:/usr/share/nginx/html
       - ./log/nginx:/var/log/nginx
@@ -13,7 +13,9 @@ services:
       - ./nginx/cert:/etc/pki/nginx
     networks:
       - backend
+#    network_mode: bridge      
     privileged: true
+
   mynode:
     container_name: mynode
     build:
@@ -24,10 +26,11 @@ services:
     volumes:
      - ./node/src:/usr/src/app/src 
     networks:
-     - backend
+      - backend
+#    network_mode: bridge      
     privileged: true
 
-  rms:
+  myrms:
     container_name: myrms
     mac_address: 00:0c:29:93:ae:73     
     # SKRLECWIT221940
@@ -35,14 +38,17 @@ services:
     build:
       context: ./rms
       dockerfile: Dockerfile
+    volumes:
+      - '/home1/hyjung/msa/rms/apache/conf:/home1/apache/conf'
     ports:
-     - "443:443"
+     - "8081:8081"
     networks:
-     - backend
+      - backend
+#    network_mode: bridge      
     command: ["/home1/apache/bin/httpd", "-D", "FOREGROUND"]
 
   medallion:
-    container_name: mytaxii
+    container_name: medallion
     build:
       context: ./taxii
       dockerfile: ./docker_utils/Dockerfile
@@ -52,11 +58,12 @@ services:
       - '/home1/hyjung/msa/taxii/config:/config'
     privileged: true
     networks:
-     - backend    
+      - backend
+#    network_mode: bridge      
     command: [sh, -c, "medallion --host 0.0.0.0 /config/docker_config.json"]
 
   mongo:
-    container_name: mymonogo
+    container_name: mongo
     image: mongo
     restart: always
     ports:
@@ -68,7 +75,8 @@ services:
       - './mongodb/data:/data/db'
     privileged: true
     networks:
-     - backend
+      - backend
+#    network_mode: bridge
 networks:
   backend:
     driver: bridge
