@@ -4,7 +4,6 @@ services:
     container_name: mynginx
     image: nginx:latest
     ports:
-      #- "80:80"
       - "443:443"
     volumes:
       - ./nginx/html:/usr/share/nginx/html
@@ -13,7 +12,6 @@ services:
       - ./nginx/cert:/etc/pki/nginx
     networks:
       - backend
-#    network_mode: bridge      
     privileged: true
 
   mynode:
@@ -27,7 +25,6 @@ services:
      - ./node/src:/usr/src/app/src 
     networks:
       - backend
-#    network_mode: bridge      
     privileged: true
 
   myrms:
@@ -44,7 +41,6 @@ services:
      - "8081:8081"
     networks:
       - backend
-#    network_mode: bridge      
     command: ["/home1/apache/bin/httpd", "-D", "FOREGROUND"]
 
   medallion:
@@ -59,7 +55,6 @@ services:
     privileged: true
     networks:
       - backend
-#    network_mode: bridge      
     command: [sh, -c, "medallion --host 0.0.0.0 /config/docker_config.json"]
 
   mongo:
@@ -76,7 +71,6 @@ services:
     privileged: true
     networks:
       - backend
-#    network_mode: bridge
 networks:
   backend:
     driver: bridge

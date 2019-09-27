@@ -1,0 +1,23 @@
+version: "3"
+services:
+  myrms:
+    container_name: myrms
+    mac_address: 00:0c:29:93:ae:73     
+    # SKRLECWIT221940
+    # b77de298324755c3
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - './apache/conf:/home1/apache/conf'
+      - './sniper_rms/dbb:/home1/snipre_rms/dbb'
+      - './data/sniper_rms:/data/snipre_rms'
+      - './sniper_rms/console_cgi:/home1/snipre_rms/console_cgi'
+    ports:
+     - "8081:8081"
+    networks:
+      - backend
+    command: ["/home1/apache/bin/httpd", "-D", "FOREGROUND"]
+networks:
+  backend:
+    driver: bridge
